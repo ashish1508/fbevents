@@ -4,7 +4,7 @@ login.controller('logincontrol',['$scope','$http','$window',function($scope,$htt
 	$scope.login = function(){
 		$http.post('/auth/login',$scope.user).then(function(res){
 			console.log(res);
-			$window.location.href = 'http://localhost:3000/home';
+			$window.location.href = 'https://events1508.herokuapp.com/home';
 			
 			
 		},function(err){
