@@ -73,7 +73,13 @@ module.exports = function(app){
 	  res.redirect('/home');
 	});
   	
-  	
+  	app.get('/',function(req,res){
+
+    	//res.render('home');
+       
+        res.sendFile(path.resolve(__dirname+'/../public/views/home.html'))
+      
+    })
 
 
     app.get('/home',function(req,res){
