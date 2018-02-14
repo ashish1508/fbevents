@@ -35,9 +35,13 @@ module.exports = function(app){
 	app.get('/signup',function(req,res){
 		res.render('../public/views/signup');
     })
+
     app.get('/',function(req,res){
         res.render('login');
     })
+
+    
+
 
     app.post('/signup',function(req,res){
         console.log(req.body);
@@ -72,6 +76,7 @@ module.exports = function(app){
 	  res.redirect('/home');
 	});
   	
+
   	app.get('/auth/cuser',function(req,res){
         res.json(req.session.passport.user);
     });
@@ -83,6 +88,7 @@ module.exports = function(app){
 
     	//res.render('home');
         console.log(req.session.passport.user);
+
        
         res.sendFile(path.resolve(__dirname+'/../public/views/home.html'))
       
