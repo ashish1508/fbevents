@@ -36,7 +36,7 @@ module.exports = function(app){
 		res.render('../public/views/signup');
     })
     app.get('/',function(req,res){
-        res.render('index');
+        res.render('login');
     })
 
     app.post('/signup',function(req,res){
@@ -44,7 +44,8 @@ module.exports = function(app){
     	var username = req.body.username;
     	var password = req.body.password;
         func.signup(user,username,password);
-        res.redirect('/home');
+        res.redirect('/login');
+
     })
     /*app.get('/login',function(req,res){
     	console.log(req.isAuthenticated());
@@ -55,11 +56,9 @@ module.exports = function(app){
 
     });*/
 
-    app.post("/auth/login",passport.authenticate('local-login',{failureRedirect:'/loginfail'}),function (req, res) {
-	   console.log( 'login : '+ req.session.passport.user);
-	   console.log(req.isAuthenticated());
-	   res.writeHead(302,{Location:'/home'});
-       res.end();
+    app.post('/auth/login',passport.authenticate('local-login',{failureRedirect:'/loginfail'}),function (req, res) {
+	  // console.log( 'login : '+ req.session.passport.user);
+	   res.json(req.session.passport.user);
 	   
     });
 
@@ -73,12 +72,17 @@ module.exports = function(app){
 	  res.redirect('/home');
 	});
   	
-  	
-
+  	app.get('/auth/cuser',function(req,res){
+        res.json(req.session.passport.user);
+    });
+    app.get('/login',function(req,res){
+        res.sendFile(path.resolve(__dirname+'/../public/views/login.html'))
+    })
 
     app.get('/home',function(req,res){
 
     	//res.render('home');
+        console.log(req.session.passport.user);
        
         res.sendFile(path.resolve(__dirname+'/../public/views/home.html'))
       
@@ -102,14 +106,14 @@ module.exports = function(app){
     })
 
     app.get('/api/getmyevents',function(req,res){
-        user.find({username:'ashish'},function(err,data){
+        user.find({username:req.session.passport.user.username},function(err,data){
             if(err) throw err;
             res.send(JSON.stringify(data))
         })
     })
 
     app.get('/api/invite',function(req,res){
-        user.find({username:'ashish'},function(err,data){
+        user.find({username:req.session.passport.user.username},function(err,data){
             if(err) throw err;
             res.send(JSON.stringify(data));
         })
@@ -133,6 +137,7 @@ module.exports = function(app){
 
 
     app.post('/uploads/public',upload.single('file'),function(req,res){
+        console.log(req.session.passport.user.username);
         console.log(req.body);
         console.log(req.file);
         
@@ -148,7 +153,7 @@ module.exports = function(app){
             public:1,
             private:0
         }
-        var use = 'ashish';
+        var use = req.session.passport.user.username;
         var pubevent = new evnt(details);
         pubevent.save(function(data){
              console.log("placed successfully..");
@@ -175,7 +180,7 @@ module.exports = function(app){
         var invi = req.body.invites;
         console.log(req.file);
         res.json({success: true});
-        use = 'ashish';
+        use = req.session.passport.user.username;
         var details = {
             name : req.body.name,
             place : req.body.place,
@@ -232,9 +237,11 @@ module.exports = function(app){
     })
 
     app.get('*', function(req, res) {
-            
+            if(req.isAuthenticated())
             res.sendFile(path.resolve(__dirname+'/../public/views/home.html')); // load our public/index.html file
-             
+             else
+            res.redirect('/home');
+
         });
 
 

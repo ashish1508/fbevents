@@ -31,6 +31,7 @@ page1.service('multipartForm', ['$http', function($http){
 
 
 page1.controller('page1control',['$scope','$http','multipartForm',function($scope,$http,multipartForm){
+    
 	$scope.message = "welcome to public event page";
     $scope.evnt = {};
 	$scope.start = function(){

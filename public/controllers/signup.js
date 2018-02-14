@@ -1,8 +1,9 @@
 var signup = angular.module('signup',[]);
 signup.controller('signupcontrol',['$scope','$http',function($scope,$http){
-	$scope.user ={};
+	$scope.use ={};
+	
 	$scope.signup = function(){
-		$http.post('/signup',$scope.user).when(function(res){
+		$http.post('/signup',$scope.use).when(function(res){
 			console.log("success");
 		})
 	}
