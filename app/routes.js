@@ -35,9 +35,7 @@ module.exports = function(app){
 	app.get('/signup',function(req,res){
 		res.render('../public/views/signup');
     })
-    app.get('/',function(req,res){
-        res.render('index');
-    })
+    
 
     app.post('/signup',function(req,res){
         console.log(req.body);
