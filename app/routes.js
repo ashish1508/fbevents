@@ -37,7 +37,7 @@ module.exports = function(app){
     })
 
     app.get('/',function(req,res){
-        res.render('login');
+        res.sendFile(path.resolve(__dirname+'/../public/views/login.html'));
     })
 
     
