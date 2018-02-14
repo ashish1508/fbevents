@@ -51,17 +51,10 @@ module.exports = function(app){
         res.redirect('/login');
 
     })
-    /*app.get('/login',function(req,res){
-    	console.log(req.isAuthenticated());
-    	if(req.isAuthenticated())
-    		res.redirect('/home');
-    	else
-    		res.render('login');
-
-    });*/
+    
 
     app.post('/auth/login',passport.authenticate('local-login',{failureRedirect:'/loginfail'}),function (req, res) {
-	  // console.log( 'login : '+ req.session.passport.user);
+	   console.log( 'login : '+ req.session.passport.user);
 	   res.json(req.session.passport.user);
 	   
     });
