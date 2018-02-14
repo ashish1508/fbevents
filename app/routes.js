@@ -82,7 +82,7 @@ module.exports = function(app){
 
     app.get('/home',function(req,res){
 
-    	//res.render('home');
+    	
        
         res.sendFile(path.resolve(__dirname+'/../public/views/home.html'))
       
